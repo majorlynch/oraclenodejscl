@@ -1,0 +1,11 @@
+{
+  "name": "oraclenodejscl",
+  "version": "1.0.0",
+  "description": "Node.js Oracle Database Example",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "oracledb": "^6.9.0"
+  }
+}
