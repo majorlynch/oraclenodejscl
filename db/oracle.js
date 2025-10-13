@@ -1,6 +1,6 @@
 // db/oracle.js
-const oracledb = require('oracledb');
-const config = require('../config/dbconfig');
+import oracledb from 'oracledb';
+import config from('../config/dbconfig.js');
 
 const connectionProperties = {
   user: config.user,
@@ -10,9 +10,15 @@ const connectionProperties = {
   walletLocation: config.walletLocation,
   walletPassword: config.password
 };
+let pool;
+async function createConnection()
+{
+ pool = await oracledb.createPool(connectionProperties);
+}
 
 async function getConnection() {
-  return oracledb.getConnection(connectionProperties);
+  //return oracledb.getConnection(connectionProperties);
+  return pool.getConnection();
 }
 
 function releaseConnection(connection) {
@@ -21,4 +27,4 @@ function releaseConnection(connection) {
   });
 }
 
-module.exports = { connectionProperties, getConnection, releaseConnection };
+export { createConnection, getConnection, releaseConnection };

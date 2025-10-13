@@ -1,11 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./docs/swagger');
-const cors = require('cors');
-const customerRoutes = require('./routes/customers');
-const config = require('./config/dbconfig');
+import express from 'express';
+import bodyParser from 'body-parser'
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './docs/swagger.js';
+import cors from 'cors';
+import authRoutes from './routes/authRoutes.js';
+import customerRoutes from './routes/customerRoutes.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 process.on('unhandledRejection', (reason, p) => {
@@ -19,7 +21,8 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(cors({ origin: '*', credentials: true }));
-app.use('/', customerRoutes);
+app.use('/auth', authRoutes);
+app.use('/customers', customerRoutes);
 
 app.listen(PORT);
 

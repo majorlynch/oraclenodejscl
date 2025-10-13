@@ -1,5 +1,5 @@
 // docs/swagger.js
-const swaggerJsdoc = require('swagger-jsdoc');
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -8,6 +8,15 @@ const swaggerDefinition = {
     version: '1.0.0',
     description: 'API documentation for customer endpoints'
   },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      },
+    },
   servers: [{ url: 'http://localhost:8080' }]
 };
 
@@ -16,4 +25,4 @@ const options = {
   apis: ['./routes/*.js'] // Update path
 };
 
-module.exports = swaggerJsdoc(options);
+export default swaggerJsdoc(options);

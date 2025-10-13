@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Node.js Oracle Database Example",
   "main": "server.js",
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "oracledb": "^6.9.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
