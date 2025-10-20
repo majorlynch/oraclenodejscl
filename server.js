@@ -5,6 +5,8 @@ import swaggerSpec from './docs/swagger.js';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import customerRoutes from './routes/customerRoutes.js';
+import inventoryRoutes from './routes/inventoryRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -23,6 +25,8 @@ app.use(bodyParser.json({ type: '*/*' }));
 app.use(cors({ origin: '*', credentials: true }));
 app.use('/auth', authRoutes);
 app.use('/customers', customerRoutes);
+app.use('/inventory', inventoryRoutes);
+app.use('/orders', orderRoutes);
 
 app.listen(PORT);
 

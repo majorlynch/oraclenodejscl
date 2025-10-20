@@ -1,9 +1,6 @@
-// routes/customers.js
 import express from 'express';
-//const { connectionProperties, getConnection, releaseConnection } = require('../db/oracle');
 import customerController from '../controllers/customerController.js';
 import { authenticateToken } from '../middleware/authmiddleware.js';
-import customerService from '../services/customerService.js';
 
 
 const router = express.Router();
@@ -11,10 +8,6 @@ const router = express.Router();
 router.use(function (req, res, next) {
     console.log("REQUEST:" + req.method + "   " + req.url);
     console.log("BODY:" + JSON.stringify(req.body));
-    //     res.setHeader('Access-Control-Allow-Origin', '*');
-    //     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    //     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    //     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
@@ -47,7 +40,7 @@ router.use(function (req, res, next) {
  *               items:
  *                 type: object
  *                 properties:
- *                   customer_id:
+ *                   customerId:
  *                     type: integer
  *                   email_address:
  *                     type: string
@@ -55,12 +48,11 @@ router.use(function (req, res, next) {
  *                     type: string
  */
 
-//router.route('/customers/:page/:pageSize').get(customerController.getCustomers);
 router.get('/:page/:pageSize', authenticateToken, customerController.getCustomers);
 
 /**
  * @swagger
- * /customers/{customer_id}:
+ * /customers/{customerId}:
  *   get:
  *     summary: Get customer by ID or name
  *     tags: [Customer]
@@ -68,7 +60,7 @@ router.get('/:page/:pageSize', authenticateToken, customerController.getCustomer
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: customer_id
+ *         name: customerId
  *         required: true
  *         schema:
  *           type: integer
@@ -82,7 +74,7 @@ router.get('/:page/:pageSize', authenticateToken, customerController.getCustomer
  *               items:
  *                 type: object
  *                 properties:
- *                   customer_id:
+ *                   customerId:
  *                     type: integer
  *                   email_address:
  *                     type: string
@@ -90,7 +82,7 @@ router.get('/:page/:pageSize', authenticateToken, customerController.getCustomer
  *                     type: string
  */
 
-router.route('/:customer_id').get(authenticateToken, customerController.getCustomerById);
+router.route('/:customerId').get(authenticateToken, customerController.getCustomerById);
 
 /**
  * @swagger
@@ -107,11 +99,11 @@ router.route('/:customer_id').get(authenticateToken, customerController.getCusto
  *           schema:
  *             type: object
  *             required:
- *               - customer_id
+ *               - customerId
  *               - email_address
  *               - full_name
  *             properties:
- *               customer_id:
+ *               customerId:
  *                 type: integer
  *               email_address:
  *                 type: string
@@ -127,7 +119,7 @@ router.route('/:customer_id').get(authenticateToken, customerController.getCusto
  *               properties:
  *                 message:
  *                   type: string
- *                 customer_id:
+ *                 customerId:
  *                   type: integer
  *       400:
  *         description: Invalid input
@@ -151,11 +143,11 @@ router.route('/').post(authenticateToken, customerController.createCustomer);
  *           schema:
  *             type: object
  *             required:
- *               - customer_id
+ *               - customerId
  *               - email_address
  *               - full_name
  *             properties:
- *               customer_id:
+ *               customerId:
  *                 type: integer
  *               email_address:
  *                 type: string
@@ -171,7 +163,7 @@ router.route('/').post(authenticateToken, customerController.createCustomer);
  *               properties:
  *                 message:
  *                   type: string
- *                 customer_id:
+ *                 customerId:
  *                   type: integer
  *       400:
  *         description: Invalid input
@@ -182,7 +174,7 @@ router.route('/').put(authenticateToken, customerController.updateCustomer);
 
 /**
  * @swagger
- * /customers/{customer_id}:
+ * /customers/{customerId}:
  *   delete:
  *     summary: Delete a customer
  *     tags: [Customer]
@@ -190,7 +182,7 @@ router.route('/').put(authenticateToken, customerController.updateCustomer);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: customer_id
+ *         name: customerId
  *         required: true
  *         schema:
  *           type: integer
@@ -204,13 +196,59 @@ router.route('/').put(authenticateToken, customerController.updateCustomer);
  *               properties:
  *                 message:
  *                   type: string
- *                 customer_id:
+ *                 customerId:
  *                   type: integer
  *       400:
  *         description: Invalid input
  *       500:
  *         description: Server error
  */
-router.route('/:customer_id').delete(authenticateToken, customerController.deleteCustomer);
+router.route('/:customerId').delete(authenticateToken, customerController.deleteCustomer);
+
+/**
+ * @swagger
+ * /customers/createcustomers:
+ *   post:
+ *     summary: Create multiple customers
+ *     tags: [Customer]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               type: object
+ *               required:
+ *                 - customerId
+ *                 - emailAddress
+ *                 - fullName
+ *               properties:
+ *                 customerId:
+ *                   type: integer
+ *                 emailAddress:
+ *                   type: string
+ *                 fullName:
+ *                   type: string
+ *     responses:
+ *       201:
+ *         description: Customers created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 createdCount:
+ *                   type: integer
+ *       400:
+ *         description: Invalid input
+ *       500:
+ *         description: Server error
+ */
+router.route('/createcustomers').post(authenticateToken, customerController.createCustomers);
 
 export default router;

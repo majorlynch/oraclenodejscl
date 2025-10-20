@@ -4,28 +4,31 @@ async function getCustomers(page, pageSize) {
     return await customerRepository.getCustomers(page, pageSize);
 }
 
-async function getCustomerById(customer_id) {
-    if (!customer_id || isNaN(customer_id)) {
-        throw new Error('Invalid customer_id');
+async function getCustomerById(customerId) {
+    if (!customerId || isNaN(customerId)) {
+        throw new Error('Invalid customerId');
     }
-    const customer = await customerRepository.getCustomerById(customer_id);
+    const customer = await customerRepository.getCustomerById(customerId);
     if (!customer) {
         throw new Error('Customer not found');
     }
     return customer;
 }
 
-async function createCustomer(customer_id, email_address, full_name) {
-    return await customerRepository.createCustomer(customer_id, email_address, full_name);
+async function createCustomer(customerId, email_address, full_name) {
+    return await customerRepository.createCustomer(customerId, email_address, full_name);
 }
 
 async function updateCustomer(customer){
     return await customerRepository.updateCustomer(customer);
 }
 
-async function deleteCustomer(customer_id){
-    return await customerRepository.deleteCustomer(customer_id);
+async function deleteCustomer(customerId){
+    return await customerRepository.deleteCustomer(customerId);
+}
+async function createCustomers(customerList){
+    return await customerRepository.createCustomers(customerList);
 }
 
-export default { getCustomerById, getCustomers, createCustomer, updateCustomer, deleteCustomer };
+export default { getCustomerById, getCustomers, createCustomer, updateCustomer, deleteCustomer, createCustomers };
 

@@ -14,8 +14,8 @@ async function getCustomers(req, res) {
 
 async function getCustomerById(req, res) {
     try {
-        const customer_id = req.params.customer_id;
-        const customer = await customerService.getCustomerById(customer_id);
+        const customerId = req.params.customerId;
+        const customer = await customerService.getCustomerById(customerId);
         res.status(200).json(customer);
     }
     catch (error) {
@@ -25,11 +25,11 @@ async function getCustomerById(req, res) {
 
 async function createCustomer(req, res) {
     try {
-        const { customer_id, email_address, full_name } = req.body;
-        const result = await customerService.createCustomer(customer_id, email_address, full_name);
+        const { customerId, email_address, full_name } = req.body;
+        const result = await customerService.createCustomer(customerId, email_address, full_name);
         res.status(201).json({
             message: 'Customer created',
-            customer_id,
+            customerId,
             email_address,
             full_name,
             result
@@ -56,11 +56,11 @@ async function updateCustomer(req, res) {
 
 async function deleteCustomer(req, res) {
     try {
-        const { customer_id } = req.params;
-        const result = await customerService.deleteCustomer(customer_id);
+        const { customerId } = req.params;
+        const result = await customerService.deleteCustomer(customerId);
         res.status(200).json({
             message: 'Customer deleted',
-            customer_id
+            customerId
         });
     } catch (err) {
         console.error('Error deleting customer:', err.message);
@@ -68,4 +68,18 @@ async function deleteCustomer(req, res) {
     }
 }
 
-export default { getCustomerById, getCustomers, createCustomer, updateCustomer, deleteCustomer };
+async function createCustomers(req, res) {
+    try {
+        const customerList = req.body;
+        const result = await customerService.createCustomers(customerList);
+        res.status(201).json({
+            message: 'Customers created',
+            result
+        });
+    } catch (err) {
+        console.error('Error creating customers:', err.message);
+        res.status(500).send(err.message);
+    }
+}
+
+export default { getCustomerById, getCustomers, createCustomer, updateCustomer, deleteCustomer, createCustomers };
