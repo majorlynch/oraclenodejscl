@@ -1,0 +1,8 @@
+# Mocha options
+
+timeout: false
+retries: 1
+trace-warnings: true
+spec:
+  - test/test.js
+  - test/unit/**/*.js

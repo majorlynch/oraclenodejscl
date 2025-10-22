@@ -99,12 +99,9 @@ router.route('/:customerId').get(authenticateToken, customerController.getCustom
  *           schema:
  *             type: object
  *             required:
- *               - customerId
  *               - email_address
  *               - full_name
  *             properties:
- *               customerId:
- *                 type: integer
  *               email_address:
  *                 type: string
  *               full_name:
@@ -222,12 +219,9 @@ router.route('/:customerId').delete(authenticateToken, customerController.delete
  *             items:
  *               type: object
  *               required:
- *                 - customerId
  *                 - emailAddress
  *                 - fullName
  *               properties:
- *                 customerId:
- *                   type: integer
  *                 emailAddress:
  *                   type: string
  *                 fullName:

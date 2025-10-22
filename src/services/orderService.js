@@ -1,4 +1,4 @@
-import orderRepository from "../repositories/orderRepository";
+import orderRepository from "../../repositories/orderRepository";
 
 async function getCustomerOrders(customerId) {
     if (!customerId || isNaN(customerId)) {

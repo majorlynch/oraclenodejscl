@@ -17,7 +17,7 @@ process.on('unhandledRejection', (reason, p) => {
     // application specific logging, throwing an error, or other logic here
 });
 
-const PORT = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,5 +28,5 @@ app.use('/customers', customerRoutes);
 app.use('/inventory', inventoryRoutes);
 app.use('/orders', orderRoutes);
 
-app.listen(PORT);
+app.listen(port);
 

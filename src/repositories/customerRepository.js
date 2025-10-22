@@ -141,8 +141,8 @@ async function createCustomers(customerList) {
     let connection;
     try{
         connection = await pool.getConnection();
-        const sql = `insert into customers (customer_id, email_address, full_name)
-                            values (:customerId, :emailAddress, :fullName)`;
+        const sql = `insert into customers ( email_address, full_name)
+                            values (:emailAddress, :fullName)`;
 /*
         const binds = [
             { customerId: 500, emailAddress: "i@i.com", fullName: "Alan" },
@@ -153,7 +153,6 @@ async function createCustomers(customerList) {
         const options = {
             autoCommit: true,
             bindDefs: {
-                customerId: { type: oracledb.NUMBER },
                 emailAddress: { type: oracledb.STRING, maxSize: 100 },
                 fullName: { type: oracledb.STRING, maxSize: 100 }
             }
