@@ -1,4 +1,4 @@
-import inventoryService from '../services/inventoryService.js';
+import inventoryService from '#services/inventoryService.js';
 
 async function getProductInventory(req, res) {
     try {

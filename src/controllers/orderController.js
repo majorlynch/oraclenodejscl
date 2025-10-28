@@ -1,12 +1,13 @@
-import orderRepository from "../repositories/orderRepository.js";
+import orderRepository from "#repositories/orderRepository.js";
 
 async function getCustomerOrders(req, res) {
     try {
-        let customerId = req.params.customerId;
+        const customerId = req.params.customerId;
+        const retrievalMethod = req.params.retrievalMethod;
         if (customerId === '{customerId}' || !customerId) {
             storeIcustomerId = null;
         }
-        const orderList = await orderRepository.getCustomerOrders(customerId);
+        const orderList = await orderRepository.getCustomerOrders(customerId, retrievalMethod);
         res.status(200).json(orderList);
     }
     catch (error) {

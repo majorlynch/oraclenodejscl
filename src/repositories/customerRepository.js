@@ -1,28 +1,55 @@
 import oracledb from 'oracledb';
-import pool from '../db/oraclePool.js';
+import pool from '#db/oraclePool.js';
 
-async function getCustomers(page, pageSize) {
+async function getCustomers(page, pageSize, retrievalMethod) {
     const offset = (page - 1) * pageSize;
     console.log(page);
     console.log(pageSize);
     console.log(offset);
+    console.log(retrievalMethod);
 
     let connection;
     try {
         connection = await pool.getConnection();
-        const result = await connection.execute(`
-                                                select customer_id as "customerId",
-                                                    email_address as "emailAddress",
-                                                    full_name as "fullName"
-                                                from customers
-                                                order by customer_id
-                                                offset :offset rows fetch next :pageSize rows only`,
-            {
-                offset,
-                pageSize
-            },
-            { outFormat: oracledb.OUT_FORMAT_OBJECT });
-        return result.rows;
+            console.log(`retrievalMethod: ${retrievalMethod}`);
+        if (retrievalMethod == 'R') {
+            console.log('resultset is used');
+            const result = await connection.execute(`
+                                                    select customer_id as "customerId",
+                                                        email_address as "emailAddress",
+                                                        full_name as "fullName"
+                                                    from customers
+                                                    order by customer_id
+                                                    offset :offset rows fetch next :pageSize rows only`,
+                {
+                    offset,
+                    pageSize
+                },
+                {
+                    resultSet: true,
+                    outFormat: oracledb.OUT_FORMAT_OBJECT
+                });
+
+                const rs = result.resultSet;
+                let rows = await rs.getRows();
+                return rows;
+        }
+        else {
+            console.log('direct fetch is used');
+            const result = await connection.execute(`
+                                                    select customer_id as "customerId",
+                                                        email_address as "emailAddress",
+                                                        full_name as "fullName"
+                                                    from customers
+                                                    order by customer_id
+                                                    offset :offset rows fetch next :pageSize rows only`,
+                {
+                    offset,
+                    pageSize
+                },
+                { outFormat: oracledb.OUT_FORMAT_OBJECT });
+            return result.rows;
+        }
     } catch (err) {
         console.error('Error closing connection:', err.message);
         throw err;
@@ -139,17 +166,17 @@ async function deleteCustomer(customerId) {
 
 async function createCustomers(customerList) {
     let connection;
-    try{
+    try {
         connection = await pool.getConnection();
         const sql = `insert into customers ( email_address, full_name)
                             values (:emailAddress, :fullName)`;
-/*
-        const binds = [
-            { customerId: 500, emailAddress: "i@i.com", fullName: "Alan" },
-            { customerId: 501, emailAddress: "j@j.com", fullName: "Brian" },
-            { customerId: 502, emailAddress: "k@k.com", fullName: "Carol" }
-        ];
-*/
+        /*
+                const binds = [
+                    { customerId: 500, emailAddress: "i@i.com", fullName: "Alan" },
+                    { customerId: 501, emailAddress: "j@j.com", fullName: "Brian" },
+                    { customerId: 502, emailAddress: "k@k.com", fullName: "Carol" }
+                ];
+        */
         const options = {
             autoCommit: true,
             bindDefs: {
@@ -160,7 +187,7 @@ async function createCustomers(customerList) {
 
         const result = await connection.executeMany(sql, customerList, options);
 
-        console.log(result.rowsAffected); 
+        console.log(result.rowsAffected);
         return result;
     } catch (err) {
         console.error(err.message);
@@ -169,7 +196,7 @@ async function createCustomers(customerList) {
     finally {
         connection?.close().catch(err => { console.error('Error closing connection:', err.message); });
     };
-        
+
 }
 
 

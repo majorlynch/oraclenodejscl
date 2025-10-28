@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Node.js Oracle Database Example",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "type": "module",
   "scripts": {
     "start": "node server.js",
@@ -25,6 +28,10 @@
     "sinon": "^21.0.0"
   },
   "imports": {
-    "#db/*": "./db/*"
+    "#db/*": "./db/*",
+    "#controllers/*": "./src/controllers/*",
+    "#services/*": "./src/services/*",
+    "#repositories/*": "./src/repositories/*",
+    "#middleware/*": "./src/middleware/*"
   }
 }

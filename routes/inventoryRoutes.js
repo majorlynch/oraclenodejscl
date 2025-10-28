@@ -1,6 +1,6 @@
 import express from 'express';
-import inventoryController from '../controllers/inventoryController.js';
-import { authenticateToken } from '../middleware/authmiddleware.js';
+import inventoryController from '#controllers/inventoryController.js';
+import { authenticateToken } from '#middleware/authmiddleware.js';
 
 const router = express.Router();
 

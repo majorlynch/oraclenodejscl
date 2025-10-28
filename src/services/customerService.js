@@ -1,14 +1,14 @@
-import customerRepository from '../repositories/customerRepository.js';
+import customerRepository from '#repositories/customerRepository.js';
 
-async function getCustomers(page, pageSize) {
-    return await customerRepository.getCustomers(page, pageSize);
+async function getCustomers(page, pageSize, retrievalMethod) {
+    return await customerRepository.getCustomers(page, pageSize, retrievalMethod);
 }
 
 async function getCustomerById(customerId) {
     if (!customerId || isNaN(customerId)) {
         throw new Error('Invalid customerId');
     }
-    const customer = await customerRepository.getCustomerById(customerId);
+    const customer = await customerRepository.getCustomerById(customerIdretrievalMethod);
     if (!customer) {
         throw new Error('Customer not found');
     }

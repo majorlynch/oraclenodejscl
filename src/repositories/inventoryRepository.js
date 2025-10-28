@@ -1,5 +1,5 @@
 import oracledb from 'oracledb';
-import pool from '../db/oraclePool.js';
+import pool from '#db/oraclePool.js';
 
 async function getProductinventory(productId, storeId) {
     let connection, productInventory;

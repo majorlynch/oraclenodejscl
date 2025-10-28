@@ -1,4 +1,4 @@
-import inventoryRepostory from '../repositories/inventoryRepository.js';
+import inventoryRepostory from '#repositories/inventoryRepository.js';
 
 async function getProductInventory(productId, storeId) {
     if (!productId || isNaN(productId)) {

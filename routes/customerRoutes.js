@@ -1,19 +1,14 @@
 import express from 'express';
-import customerController from '../controllers/customerController.js';
-import { authenticateToken } from '../middleware/authmiddleware.js';
+import customerController from '#controllers/customerController.js';
+import { authenticateToken } from '#middleware/authmiddleware.js';
 
 
 const router = express.Router();
 
-router.use(function (req, res, next) {
-    console.log("REQUEST:" + req.method + "   " + req.url);
-    console.log("BODY:" + JSON.stringify(req.body));
-    next();
-});
 
 /**
  * @swagger
- * /customers/{page}/{pageSize}:
+ * /customers/{page}/{pageSize}/{retrievalMethod}:
  *   get:
  *     summary: Get all customers
  *     tags: [Customer]
@@ -24,12 +19,20 @@ router.use(function (req, res, next) {
  *         name: page
  *         required: true
  *         schema:
- *         type: integer
+ *           type: integer
  *       - in: path
  *         name: pageSize
  *         required: true
  *         schema:
  *           type: integer
+ *       - in: path
+ *         name: retrievalMethod
+ *         description: R for resultset, D for direct fetch
+ *         required: true
+ *         schema:
+ *           type: string
+ *           minLength: 1
+ *           default: R
  *     responses:
  *       200:
  *         description: A list of customers
@@ -48,7 +51,7 @@ router.use(function (req, res, next) {
  *                     type: string
  */
 
-router.get('/:page/:pageSize', authenticateToken, customerController.getCustomers);
+router.get('/:page/:pageSize/:retrievalMethod', authenticateToken, customerController.getCustomers);
 
 /**
  * @swagger

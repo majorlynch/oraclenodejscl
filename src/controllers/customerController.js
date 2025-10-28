@@ -1,10 +1,12 @@
-import customerService from '../services/customerService.js';
+import customerService from '#services/customerService.js';
 
 async function getCustomers(req, res) {
     try {
         const page = req.params.page;
         const pageSize = req.params.pageSize;
-        const customers = await customerService.getCustomers(page, pageSize);
+        const retrievalMethod = req.params.retrievalMethod;
+
+        const customers = await customerService.getCustomers(page, pageSize, retrievalMethod);
         res.status(200).json(customers);
     }
     catch (error) {
